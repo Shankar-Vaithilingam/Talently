@@ -14,20 +14,23 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
+# 18-20 - I have already opened a chrome browser in debugging mode and I'm running it in the cmd line to start it as a server 
 pro = subprocess.Popen(
     "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9986 --user-data-dir=/Users/shankar/Documents/pipl_cookies/",
     stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
 
-path = r"/Users/shankar/Desktop/ChromeDriver/chromedriver"
-chrome_options = Options()
-chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9986")
+path = r"/Users/shankar/Desktop/ChromeDriver/chromedriver" #path of my downloaded chromedriver
+
+chrome_options = Options() # Initializing chrome options
+chrome_options.add_experimental_option("debuggerAddress", "127.0.0.1:9986") #invoke "add experimental options" function and pass the debugger address as the port number in which the chrome browser is opened
 chrome_driver = path
-driver = webdriver.Chrome(chrome_driver, chrome_options=chrome_options)
+driver = webdriver.Chrome(chrome_driver, chrome_options=chrome_options) 
 
 try:
-    driver.get("https://pipl.com/search/")
-    login_text = driver.find_element("xpath", ".//span[contains(@class,'o-loginuser__title desktop')]").text
+    driver.get("https://pipl.com/search/") # trying to pen the search module
+    login_text = driver.find_element("xpath", ".//span[contains(@class,'o-loginuser__title desktop')]").text #find a logged in user icon
 except:
+    # login code
     driver.get("https://pipl.com/accounts/login/")
     time.sleep(3)
     username = driver.find_element("xpath", "//input[@name='email']")
@@ -53,9 +56,9 @@ for profile in parse_profiles:
         driver.find_element("xpath", ".//span[contains(@test-id,'clear-search-bar-x')]").click()
         continue
     except:
-        phone_elements = driver.find_elements("xpath", ".//span[contains(@test-id,'phone-field-value-')]")
+        phone_elements = driver.find_elements("xpath", ".//span[contains(@test-id,'phone-field-value-')]") # get all elements against the phone class
         for count, element in enumerate(phone_elements, start=0):
-            num = element.text
+            num = element.text # Phone number
             try:
                 text_concat = ".//span[contains(@test-id,'phone-field-value-"+str(count)+"')]/following-sibling::span"
                 num_type = driver.find_element("xpath", text_concat).text
