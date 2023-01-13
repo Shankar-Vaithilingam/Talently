@@ -12,7 +12,6 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 import time
 import requests
-from bs4 import BeautifulSoup
 
 # 18-20 - I have already opened a chrome browser in debugging mode and I'm running it in the cmd line to start it as a server 
 pro = subprocess.Popen(
